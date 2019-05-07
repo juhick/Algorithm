@@ -11,18 +11,17 @@
 #### c++递归版本
 
 ```cpp
-//快速排序
 template<typename T>
-void quick_sort(T arr[], int left, int right){
+void quick_sort_recursive(T arr[], int left, int right){
 
     if (left >= right)
         return;
 
     int i = left, j = right;
-    int key = arr[left];
+    T key = arr[left];
 
     while (i < j){
-        while (i < j && arr[j] >= key)
+        while (i < j && arr[j] > key)
             j--;
         arr[i] = arr[j];
         while (i < j && arr[i] <= key)
@@ -33,6 +32,49 @@ void quick_sort(T arr[], int left, int right){
     arr[i] = key;
     quick_sort(arr, left, i - 1);
     quick_sort(arr, i + 1, right);
+}
+```
+
+#### c++迭代版本
+
+```cpp
+struct Range{
+        int start, end;
+        Range(int s = 0, int e = 0){
+            start = s;
+            end = e;
+        }
+    };
+
+template <typename T>
+void quick_sort(T arr[], const int len){
+    if (len <= 0)
+        return;
+
+    Range r[len];
+
+    int p = 0;
+    r[p++] = Range(0, len - 1);
+    while (p){
+        Range range = r[--p];
+        if (range.start >= range.end)
+            continue;
+        T key = arr[range.start];
+
+        int left = range.start, right = range.end;
+        while (left < right){
+            while (arr[right] > key && right > left)
+                right--;
+            while (arr[left] <= key && right > left)
+                left++;
+            swap(arr[left], arr[right]);
+        }
+        if (arr[left] <= arr[range.start])
+            swap(arr[left], arr[range.start]);
+        else left--;
+        r[p++] = Range(range.start, left - 1);
+        r[p++] = Range(left + 1, range.end);
+    }
 }
 ```
 
