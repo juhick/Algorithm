@@ -137,3 +137,64 @@ void Bubble_sort(T arr[], int len){
 }
 ```
 
+### 3.鸡尾酒排序
+
+> **鸡尾酒排序**，也就是**定向冒泡排序**，**鸡尾酒搅拌排序**，**搅拌排序**（也可以视作[选择排序](https://zh.wikipedia.org/wiki/選擇排序)的一种变形），**涟漪排序**，**来回排序**或**快乐小时排序**，是[冒泡排序](https://zh.wikipedia.org/wiki/冒泡排序)的一种变形。此算法与[冒泡排序](https://zh.wikipedia.org/wiki/冒泡排序)的不同处在于排序时是以双向在序列中进行排序。
+
+![鸡尾酒排序1](assets/Sorting_shaker_sort_anim.gif)
+
+| 最坏时间复杂度     | $\theta(n^2)$ |
+| ------------------ | ------------- |
+| **最优时间复杂度** | $\theta(n)$   |
+| **平均时间复杂度** | $\theta(n^2)$ |
+
+> 鸡尾酒排序等于是[冒泡排序](https://zh.wikipedia.org/wiki/冒泡排序)的轻微变形。不同的地方在于从低到高然后从高到低，而[冒泡排序](https://zh.wikipedia.org/wiki/冒泡排序)则仅从低到高去比较序列里的每个元素。他可以得到比[冒泡排序](https://zh.wikipedia.org/wiki/冒泡排序)稍微好一点的性能，原因是[冒泡排序](https://zh.wikipedia.org/wiki/冒泡排序)只从一个方向进行比对（由低到高），每次循环只移动一个项目。
+>
+> 以序列(2,3,4,5,1)为例，鸡尾酒排序只需要访问一次序列就可以完成排序，但如果使用[冒泡排序](https://zh.wikipedia.org/wiki/冒泡排序)则需要四次。但是在随机数序列的状态下，鸡尾酒排序与冒泡排序的效率都很差劲。
+
+```cpp
+template <typename T>
+void cocktail_sort(T arr[], int len){
+    int left = 0, right = len - 1;
+    while (left < right){
+        for (int j = left; j < right; j++){
+            if (arr[j] > arr[j + 1])
+                swap(arr[j], arr[j + 1]);
+        }
+        right--;
+        for (int j = right; j > left; j--){
+            if (arr[j] < arr[j - 1])
+                swap(arr[j], arr[j - 1]);
+        }
+        left++;
+    }
+}
+```
+
+### 4.选择排序
+
+> **择排序**（Selection sort）是一种简单直观的[排序算法](https://zh.wikipedia.org/wiki/排序算法)。它的工作原理如下。首先在未排序序列中找到最小（大）元素，存放到排序序列的起始位置，然后，再从剩余未排序元素中继续寻找最小（大）元素，然后放到已排序序列的末尾。以此类推，直到所有元素均排序完毕。
+
+![选择排序1](assets/Selection_sort_animation.gif)
+
+> 选择排序的主要优点与数据移动有关。如果某个元素位于正确的最终位置上，则它不会被移动。选择排序每次交换一对元素，它们当中至少有一个将被移到其最终位置上，因此对{\displaystyle n}![n](assets/a601995d55609f2d9f5e233e36fbe9ea26011b3b.svg)个元素的表进行排序总共进行至多{\displaystyle n-1}![{\displaystyle n-1}](assets/fbd0b0f32b28f51962943ee9ede4fb34198a2521.svg)次交换。在所有的完全依靠交换去移动元素的排序方法中，选择排序属于非常好的一种。
+
+![选择排序2](assets/Selection-Sort-Animation.gif)
+
+> 选择排序的示例动画。红色表示当前最小值，黄色表示已排序序列，蓝色表示当前位置。
+
+```cpp
+template <typename T>
+void selection_sort(T arr[], int len){
+    int min;
+    for (int i = 0; i < len - 1; i++){
+        min = i;
+        for (int j = i + 1; j < len; j++){
+            if (arr[min] > arr[j])
+                min = j;
+        }
+        swap(arr[min], arr[i]);
+    }
+}
+```
+
