@@ -5,4 +5,3 @@
 | #    | Type                                                         |
 | ---- | ------------------------------------------------------------ |
 | 1    | [排序](<https://github.com/juhick/Algorithm/tree/master/Sort>) |
-
