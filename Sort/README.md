@@ -443,3 +443,70 @@ void merge_sort(T arr[], int len){
 }
 ```
 
+### 8. 堆排序
+
+> **堆排序**（英语：Heapsort）是指利用[堆](https://zh.wikipedia.org/wiki/堆_(数据结构))这种数据结构所设计的一种[排序算法](https://zh.wikipedia.org/wiki/排序算法)。堆是一个近似[完全二叉树](https://zh.wikipedia.org/wiki/完全二叉树)的结构，并同时满足**堆积的性质**：即子节点的键值或索引总是小于（或者大于）它的父节点。
+
+![堆排序1](assets/Sorting_heapsort_anim.gif)
+
+| 最坏时间复杂度     | $O(n\log n)$                  |
+| ------------------ | ----------------------------- |
+| **最优时间复杂度** | $O(n  \log n)$                |
+| **平均时间复杂度** | $O(n \log n)$                 |
+| **最坏空间复杂度** | $O(n)$total, $O(1)$ auxiliary |
+
+> ***概述***
+>
+> 若以升序排序说明，把[数组](https://zh.wikipedia.org/wiki/陣列)转换成[最大堆积](https://zh.wikipedia.org/wiki/最大—最小堆)(Max-Heap Heap)，这是一种满足最大堆积性质(Max-Heap Property)的[二叉树](https://zh.wikipedia.org/wiki/二元樹)：对于除了根之外的每个节点i, A[parent(i)] ≥ A[i]。
+>
+> 重复从最大堆积取出数值最大的结点(把根结点和最后一个结点交换，把交换后的最后一个结点移出堆)，并让残余的[堆积](https://zh.wikipedia.org/wiki/堆積)维持最大堆积性质。
+>
+> ***堆节点的访问***
+>
+> 通常堆是通过一维[数组](https://zh.wikipedia.org/wiki/数组)来实现的。在数组起始位置为0的情形中：
+>
+> - 父节点i的左子节点在位置{![{\displaystyle (assets/3bff8f7d580269fe6c1e35648032bf2b93354088.svg)}](https://wikimedia.org/api/rest_v1/media/math/render/svg/3bff8f7d580269fe6c1e35648032bf2b93354088);
+> - 父节点i的右子节点在位置![{\displaystyle (assets/e14787fdbf6c5580fcd2cf9f63c21dbeb8d82f5e.svg)}](https://wikimedia.org/api/rest_v1/media/math/render/svg/e14787fdbf6c5580fcd2cf9f63c21dbeb8d82f5e);
+> - 子节点i的父节点在位置![{\displaystyle floor(assets/f38b28cfa0a788a6d767061ab7481da190b339b6.svg)}](https://wikimedia.org/api/rest_v1/media/math/render/svg/f38b28cfa0a788a6d767061ab7481da190b339b6);
+>
+> ***堆的操作***
+>
+> 在堆的[数据结构](https://zh.wikipedia.org/wiki/資料結構)中，堆中的最大值总是位于根节点（在优先队列中使用堆的话堆中的最小值位于根节点）。堆中定义以下几种操作：
+>
+> - 最大堆调整（Max Heapify）：将堆的末端子节点作调整，使得子节点永远小于父节点
+> - 创建最大堆（Build Max Heap）：将堆中的所有数据重新排序
+> - 堆排序（HeapSort）：移除位在第一个数据的根节点，并做最大堆调整的[递归](https://zh.wikipedia.org/wiki/遞迴)运算
+
+#### c++
+
+```cpp
+void max_headify(int arr[], int start, int end){
+
+    int dad = start;
+    int son = dad * 2 + 1;
+    while (son <= end){
+        if (son + 1 <= end && arr[son] < arr[son + 1]){
+            son++;
+        }
+        if (arr[dad] > arr[son])
+            return;
+        else{
+            swap(arr[dad], arr[son]);
+            dad = son;
+            son = dad * 2 + 1;
+        }
+    }
+}
+
+void heap_sort(int arr[], int len){
+    for (int i = len / 2 - 1; i >= 0; i--){
+        max_headify(arr, i, len - 1);
+    }
+
+    for (int i = len - 1; i > 0; i--){
+        swap(arr[0], arr[i]);
+        max_headify(arr, 0, i - 1);
+    }
+}
+```
+
